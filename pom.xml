@@ -1,9 +1,9 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.jannehietamaki</groupId>
-	<artifactId>spring-object-mapping</artifactId>
+	<groupId>spring-object-mapper</groupId>
+	<artifactId>spring-object-mapper</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>

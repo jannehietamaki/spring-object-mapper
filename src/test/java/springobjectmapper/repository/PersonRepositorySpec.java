@@ -13,7 +13,10 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import springobjectmapper.dialect.HsqlDbDialect;
 import springobjectmapper.model.Country;
 import springobjectmapper.model.Person;
-
+import springobjectmapper.query.Order;
+import springobjectmapper.query.OrderedQuery;
+import springobjectmapper.query.Query;
+import springobjectmapper.query.SimpleQuery;
 
 @RunWith(JDaveRunner.class)
 public class PersonRepositorySpec extends Specification<PersonRepository> {
@@ -51,9 +54,9 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
 		}
 
 		public void itemCanBeInsertedIntoDatabase() {
-			Person employee = new Person("James", "Bond", "james.bond@mi6.co.uk", country);
-			context.save(employee);
-			specify(employee.id(), isNotNull());
+			Person person = new Person("James", "Bond", "james.bond@mi6.co.uk", country);
+			context.save(person);
+			specify(person.id(), isNotNull());
 		}
 	}
 
@@ -67,17 +70,34 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
 		}
 
 		public void allItemsCanBeQueriedFromTheDatabase() {
-			specify(context.all().size(), does.equal(10));
+			List<Person> persons = context.query(new OrderedQuery(Order.by("first_name")));
+			specify(persons.size(), does.equal(10));
 		}
 
 		public void itemCanBeQueriedByIdAndUpdated() {
-			List<Person> employees = context.all();
-			Long id = employees.get(0).id();
+			List<Person> persons = context.query(Query.ALL);
+			Long id = persons.get(0).id();
 			Person first = context.findById(id);
 			first.setEmail("foobar@zoo.com");
 			context.save(first);
 			first = context.findById(id);
 			specify(first.getEmail(), does.equal("foobar@zoo.com"));
+		}
+
+		public void itemCanBeQueriedViaQueryInterface() {
+			List<Person> persons = context.query(new SimpleQuery("email=?", "james5.bond@mi6.co.uk"));
+			specify(persons.size(), does.equal(1));
+		}
+
+		public void itemsCanBeCounted() {
+			specify(context.count(new SimpleQuery("email=?", "james5.bond@mi6.co.uk")), does.equal(1));
+		}
+
+		public void queryCanBeLimitedAndOrdered() {
+			List<Person> persons = context.query(new OrderedQuery(Order.by("first_name")), 5, 2);
+			specify(persons.size(), does.equal(2));
+			specify(persons.get(0).getFirstName(), does.equal("James-5"));
+			specify(persons.get(1).getFirstName(), does.equal("James-6"));
 		}
 	}
 }

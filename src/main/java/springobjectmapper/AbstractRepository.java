@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.util.ReflectionUtils;
 
 import springobjectmapper.dialect.Dialect;
-
+import springobjectmapper.query.Query;
 
 public class AbstractRepository<T> {
 	private final TableProperties<T> properties;
@@ -25,12 +25,19 @@ public class AbstractRepository<T> {
 		return template.queryForObject(properties.parse(dialect.queryById()), properties.mapper(), id);
 	}
 
-	public List<T> query(String sql, Object... args) {
-		return template.query(properties.parse(sql), properties.mapper(), args);
+	public List<T> query(Query query) {
+		return query(query, 0, 10000);
 	}
 
-	public List<T> all() {
-		return query("SELECT * FROM {table}");
+	public List<T> query(Query query, int first, int count) {
+		String baseQuery = query.select(dialect);
+		String betweenQuery = dialect.selectBetween(baseQuery, first, count);
+		String orderedQuery = dialect.appendOrder(betweenQuery, query.order());
+		return template.query(properties.parse(orderedQuery), properties.mapper(), query.arguments());
+	}
+
+	public int count(Query query) {
+		return template.queryForInt(properties.parse(query.count(dialect)), query.arguments());
 	}
 
 	public void save(T entity) {

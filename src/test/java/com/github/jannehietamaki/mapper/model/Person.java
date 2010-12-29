@@ -1,23 +1,24 @@
 package com.github.jannehietamaki.mapper.model;
 
-import com.github.jannehietamaki.mapper.AbstractModel;
+import com.github.jannehietamaki.mapper.Id;
 
-public class Person extends AbstractModel {
+public class Person {
+	@Id
+	private Long id;
 	private final String firstName;
 	private final String lastName;
 	private String email;
 	private final Long countryId;
-
-	@Override
-	public String tableName() {
-		return "person";
-	}
 
 	public Person(String firstName, String lastName, String email, Country country) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.countryId = country.id();
+	}
+
+	public Long id() {
+		return id;
 	}
 
 	public void setEmail(String email) {

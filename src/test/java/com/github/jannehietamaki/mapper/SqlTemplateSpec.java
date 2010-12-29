@@ -17,7 +17,7 @@ public class SqlTemplateSpec extends Specification<SqlTemplate> {
 
 	public class WithUpdateTemplate {
 		public SqlTemplate create() {
-			return new SqlTemplate(dialect.update(), new HashMap<String, String>() {
+			return new SqlTemplate(new HashMap<String, String>() {
 				{
 					put("table", "foobar");
 					put("updates", "name=?, address=?");
@@ -27,7 +27,7 @@ public class SqlTemplateSpec extends Specification<SqlTemplate> {
 		}
 
 		public void finalSqlIsCreated() {
-			specify(context.parse(), does.equal("UPDATE foobar SET name=?, address=? WHERE id=?"));
+			specify(context.parse(dialect.update()), does.equal("UPDATE foobar SET name=?, address=? WHERE id=?"));
 		}
 	}
 }

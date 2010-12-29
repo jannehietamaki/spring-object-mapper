@@ -6,15 +6,13 @@ import java.util.regex.Pattern;
 
 public class SqlTemplate {
 	private final Pattern pattern = Pattern.compile("\\{(.*?)\\}");
-	private final String template;
 	private final Map<String, String> values;
 
-	public SqlTemplate(String template, Map<String, String> values) {
-		this.template = template;
+	public SqlTemplate(Map<String, String> values) {
 		this.values = values;
 	}
 
-	public String parse() {
+	public String parse(String template) {
 		StringBuffer result = new StringBuffer();
 		Matcher matcher = pattern.matcher(template);
 		while (matcher.find()) {

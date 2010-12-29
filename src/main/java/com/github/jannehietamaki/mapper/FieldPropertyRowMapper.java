@@ -3,6 +3,8 @@ package com.github.jannehietamaki.mapper;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -14,9 +16,17 @@ public class FieldPropertyRowMapper<T> implements RowMapper<T> {
 	private final Class<T> typeClass;
 	private final Map<String, Field> fieldMapping;
 
-	public FieldPropertyRowMapper(Class<T> typeClass, Field[] fields) {
+	public FieldPropertyRowMapper(Class<T> typeClass, TableProperties<T> properties) {
 		this.typeClass = typeClass;
-		this.fieldMapping = ReflectionHelper.getFieldMappings(fields);
+		this.fieldMapping = getFieldMappings(properties.allFields());
+	}
+
+	private Map<String, Field> getFieldMappings(List<Field> fields) {
+		Map<String, Field> result = new HashMap<String, Field>();
+		for (Field field : fields) {
+			result.put(SqlStringUtils.fieldName(field), field);
+		}
+		return result;
 	}
 
 	@Override

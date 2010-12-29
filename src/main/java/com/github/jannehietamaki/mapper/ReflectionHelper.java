@@ -1,16 +1,15 @@
 package com.github.jannehietamaki.mapper;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.util.ReflectionUtils;
 
 public class ReflectionHelper {
-	public static Object[] getValues(Field[] fields, Object o) {
+	public static Object[] getValues(List<Field> fields, Object o) {
 		List<Object> results = new ArrayList<Object>();
 		for (Field field : fields) {
 			try {
@@ -20,6 +19,16 @@ public class ReflectionHelper {
 			}
 		}
 		return results.toArray();
+	}
+
+	public static Field getAnnotatedField(Class<?> c, Class<? extends Annotation> annotationType) {
+		for (Field field : getFields(c)) {
+			Annotation annotation = field.getAnnotation(annotationType);
+			if (annotation != null) {
+				return field;
+			}
+		}
+		throw new RuntimeException("Field with annotation " + annotationType.getCanonicalName() + " was not found!");
 	}
 
 	public static Field getField(Class<?> c, String name) {
@@ -37,28 +46,16 @@ public class ReflectionHelper {
 		throw new RuntimeException("Field " + name + " was not found!");
 	}
 
-	public static List<String> getFieldNames(Class<?> c) {
-		List<String> results = new ArrayList<String>();
-		for (Field field : getFields(c)) {
-			results.add(toDbFieldName(field.getName()));
+	public static Object getFieldValue(Field field, Object o) {
+		try {
+			return field.get(o);
+		} catch (Exception e) {
+			ReflectionUtils.handleReflectionException(e);
+			return null;
 		}
-		return results;
 	}
 
-	private static String toDbFieldName(String value) {
-		StringBuilder result = new StringBuilder();
-		for (char ch : value.toCharArray()) {
-			if (Character.isUpperCase(ch)) {
-				result.append("_");
-				result.append(Character.toLowerCase(ch));
-			} else {
-				result.append(ch);
-			}
-		}
-		return result.toString();
-	}
-
-	public static Field[] getFields(Class<?> c) {
+	public static List<Field> getFields(Class<?> c) {
 		List<Field> results = new ArrayList<Field>();
 		do {
 			Field[] fields = c.getDeclaredFields();
@@ -70,18 +67,11 @@ public class ReflectionHelper {
 			}
 			c = c.getSuperclass();
 		} while (c != null);
-		return results.toArray(new Field[results.size()]);
+		return results;
 	}
 
 	private static boolean isEntityField(Field field) {
 		return !field.isSynthetic() && !Modifier.isStatic(field.getModifiers());
 	}
 
-	public static Map<String, Field> getFieldMappings(Field[] fields) {
-		Map<String, Field> result = new HashMap<String, Field>();
-		for (Field field : fields) {
-			result.put(toDbFieldName(field.getName()), field);
-		}
-		return result;
-	}
 }

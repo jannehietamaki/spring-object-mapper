@@ -1,4 +1,4 @@
-package com.github.jannehietamaki.mapper;
+package springobjectmapper;
 
 import java.util.HashMap;
 
@@ -7,9 +7,10 @@ import jdave.junit4.JDaveRunner;
 
 import org.junit.runner.RunWith;
 
-import com.github.jannehietamaki.mapper.SqlTemplate;
-import com.github.jannehietamaki.mapper.dialect.Dialect;
-import com.github.jannehietamaki.mapper.dialect.HsqlDbDialect;
+import springobjectmapper.SqlTemplate;
+import springobjectmapper.dialect.Dialect;
+import springobjectmapper.dialect.HsqlDbDialect;
+
 
 @RunWith(JDaveRunner.class)
 public class SqlTemplateSpec extends Specification<SqlTemplate> {

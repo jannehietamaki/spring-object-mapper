@@ -1,6 +1,6 @@
-package com.github.jannehietamaki.mapper.model;
+package springobjectmapper.model;
 
-import com.github.jannehietamaki.mapper.Id;
+import springobjectmapper.Id;
 
 public class Country {
 	@Id

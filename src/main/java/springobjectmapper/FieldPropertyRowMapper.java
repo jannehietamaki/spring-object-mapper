@@ -1,4 +1,4 @@
-package com.github.jannehietamaki.mapper;
+package springobjectmapper;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;

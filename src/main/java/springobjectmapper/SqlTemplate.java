@@ -1,4 +1,4 @@
-package com.github.jannehietamaki.mapper;
+package springobjectmapper;
 
 import java.util.Map;
 import java.util.regex.Matcher;

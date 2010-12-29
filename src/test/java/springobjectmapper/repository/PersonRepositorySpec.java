@@ -1,4 +1,4 @@
-package com.github.jannehietamaki.mapper.repository;
+package springobjectmapper.repository;
 
 import java.util.List;
 
@@ -10,9 +10,10 @@ import org.junit.runner.RunWith;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
-import com.github.jannehietamaki.mapper.dialect.HsqlDbDialect;
-import com.github.jannehietamaki.mapper.model.Country;
-import com.github.jannehietamaki.mapper.model.Person;
+import springobjectmapper.dialect.HsqlDbDialect;
+import springobjectmapper.model.Country;
+import springobjectmapper.model.Person;
+
 
 @RunWith(JDaveRunner.class)
 public class PersonRepositorySpec extends Specification<PersonRepository> {

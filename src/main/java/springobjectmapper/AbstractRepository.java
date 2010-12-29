@@ -1,4 +1,4 @@
-package com.github.jannehietamaki.mapper;
+package springobjectmapper;
 
 import java.util.List;
 
@@ -7,7 +7,8 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.util.ReflectionUtils;
 
-import com.github.jannehietamaki.mapper.dialect.Dialect;
+import springobjectmapper.dialect.Dialect;
+
 
 public class AbstractRepository<T> {
 	private final TableProperties<T> properties;

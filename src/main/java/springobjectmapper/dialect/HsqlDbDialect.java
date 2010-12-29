@@ -1,4 +1,4 @@
-package com.github.jannehietamaki.mapper.dialect;
+package springobjectmapper.dialect;
 
 public class HsqlDbDialect extends Dialect {
 	public String getInsertedId() {

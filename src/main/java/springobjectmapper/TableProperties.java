@@ -1,7 +1,7 @@
-package com.github.jannehietamaki.mapper;
+package springobjectmapper;
 
-import static com.github.jannehietamaki.mapper.ReflectionHelper.*;
-import static com.github.jannehietamaki.mapper.SqlStringUtils.*;
+import static springobjectmapper.ReflectionHelper.*;
+import static springobjectmapper.SqlStringUtils.*;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.github.jannehietamaki.mapper.dialect;
+package springobjectmapper.dialect;
 
 public abstract class Dialect {
 

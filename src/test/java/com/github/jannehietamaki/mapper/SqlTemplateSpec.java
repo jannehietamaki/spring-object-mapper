@@ -9,11 +9,11 @@ import org.junit.runner.RunWith;
 
 import com.github.jannehietamaki.mapper.SqlTemplate;
 import com.github.jannehietamaki.mapper.dialect.Dialect;
-
+import com.github.jannehietamaki.mapper.dialect.HsqlDbDialect;
 
 @RunWith(JDaveRunner.class)
 public class SqlTemplateSpec extends Specification<SqlTemplate> {
-	Dialect dialect = new Dialect();
+	Dialect dialect = new HsqlDbDialect();
 
 	public class WithUpdateTemplate {
 		public SqlTemplate create() {

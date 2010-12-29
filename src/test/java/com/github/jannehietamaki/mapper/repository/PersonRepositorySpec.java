@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
-import com.github.jannehietamaki.mapper.dialect.Dialect;
+import com.github.jannehietamaki.mapper.dialect.HsqlDbDialect;
 import com.github.jannehietamaki.mapper.model.Country;
 import com.github.jannehietamaki.mapper.model.Person;
 
@@ -25,7 +25,7 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
 		new jdbcDriver();
 		dataSource = new SingleConnectionDataSource("jdbc:hsqldb:mem:test" + (counter++), "sa", "", false);
 		createFixture();
-		CountryRepository countryRepository = new CountryRepository(dataSource, new Dialect());
+		CountryRepository countryRepository = new CountryRepository(dataSource, new HsqlDbDialect());
 		country = new Country("SE", "Sweden");
 		countryRepository.save(country);
 	}
@@ -46,7 +46,7 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
 
 	public class WithEmptyDatabase {
 		public PersonRepository create() {
-			return new PersonRepository(dataSource, new Dialect());
+			return new PersonRepository(dataSource, new HsqlDbDialect());
 		}
 
 		public void itemCanBeInsertedIntoDatabase() {
@@ -58,7 +58,7 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
 
 	public class WithDatabaseContainingRecords {
 		public PersonRepository create() {
-			PersonRepository repository = new PersonRepository(dataSource, new Dialect());
+			PersonRepository repository = new PersonRepository(dataSource, new HsqlDbDialect());
 			for (int a = 0; a < 10; a++) {
 				repository.save(new Person("James-" + a, "Bond", "james" + a + ".bond@mi6.co.uk", country));
 			}

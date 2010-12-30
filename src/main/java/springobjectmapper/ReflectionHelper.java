@@ -87,7 +87,7 @@ public class ReflectionHelper {
     }
 
     private static boolean isEntityField(Field field) {
-        return !field.isSynthetic() && !Modifier.isStatic(field.getModifiers());
+        return !field.isSynthetic() && !Modifier.isStatic(field.getModifiers()) && !Modifier.isTransient(field.getModifiers());
     }
 
 }

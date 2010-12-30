@@ -19,6 +19,6 @@ Maven:
 <repositories>
 	<repository>
 		<id>spring-object-mapper-snapshots</id>
-		<url>http://jannehietamaki.github.com/maven2/</url>
+		<url>http://jannehietamaki.github.com/maven2</url>
 	</repository>
 </repositories>

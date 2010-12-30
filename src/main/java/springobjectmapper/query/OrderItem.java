@@ -1,6 +1,8 @@
 package springobjectmapper.query;
 
-public class OrderItem {
+import java.io.Serializable;
+
+public class OrderItem implements Serializable {
 	private final String key;
 	private boolean descending = false;
 

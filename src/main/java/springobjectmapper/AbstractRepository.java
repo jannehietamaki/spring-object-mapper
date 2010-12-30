@@ -15,6 +15,13 @@ public class AbstractRepository<T> {
 	private final SimpleJdbcTemplate template;
 	private final Dialect dialect;
 
+	protected AbstractRepository() {
+		// Default constructor only for creating proxies
+		this.properties = null;
+		this.template = null;
+		this.dialect = null;
+	}
+
 	public AbstractRepository(DataSource dataSource, Dialect dialect, final Class<T> typeClass) {
 		this.dialect = dialect;
 		template = new SimpleJdbcTemplate(dataSource);

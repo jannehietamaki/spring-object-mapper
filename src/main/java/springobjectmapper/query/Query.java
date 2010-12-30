@@ -1,8 +1,10 @@
 package springobjectmapper.query;
 
+import java.io.Serializable;
+
 import springobjectmapper.dialect.Dialect;
 
-public interface Query {
+public interface Query extends Serializable {
 
 	public final static Query ALL = new EmptyQuery();
 

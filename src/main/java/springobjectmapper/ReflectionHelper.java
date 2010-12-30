@@ -28,7 +28,7 @@ public class ReflectionHelper {
 				return field;
 			}
 		}
-		throw new RuntimeException("Field with annotation " + annotationType.getCanonicalName() + " was not found!");
+		throw new RuntimeException("Field with annotation " + annotationType.getCanonicalName() + " was not found on type " + c.getName() + "!");
 	}
 
 	public static Field getField(Class<?> c, String name) {

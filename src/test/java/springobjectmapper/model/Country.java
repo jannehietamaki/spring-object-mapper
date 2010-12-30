@@ -19,17 +19,17 @@ package springobjectmapper.model;
 import springobjectmapper.Id;
 
 public class Country {
-	@Id
-	private Long id;
-	private final String name;
-	private final String code;
+    @Id
+    private Long id;
+    private final String name;
+    private final String code;
 
-	public Country(String code, String name) {
-		this.name = name;
-		this.code = code;
-	}
+    public Country(String code, String name) {
+        this.name = name;
+        this.code = code;
+    }
 
-	public Long id() {
-		return id;
-	}
+    public Long id() {
+        return id;
+    }
 }

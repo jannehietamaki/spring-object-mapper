@@ -22,13 +22,13 @@ import springobjectmapper.dialect.Dialect;
 
 public interface IQuery extends Serializable {
 
-	public final static IQuery ALL = new EmptyQuery();
+    public final static IQuery ALL = new EmptyQuery();
 
-	String select(Dialect dialect);
+    String select(Dialect dialect);
 
-	String count(Dialect dialect);
+    String count(Dialect dialect);
 
-	Object[] arguments();
+    Object[] arguments();
 
-	Order order();
+    Order order();
 }

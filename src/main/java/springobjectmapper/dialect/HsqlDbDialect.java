@@ -19,20 +19,20 @@ package springobjectmapper.dialect;
 import java.util.List;
 
 public class HsqlDbDialect extends Dialect {
-	private static final String SELECT = "SELECT ";
+    private static final String SELECT = "SELECT ";
 
-	@Override
-	public String getInsertedId() {
-		return "CALL IDENTITY()";
-	}
+    @Override
+    public String getInsertedId() {
+        return "CALL IDENTITY()";
+    }
 
-	@Override
-	public String selectBetween(String sql, List<Object> arguments, int first, int count) {
-		if (sql.startsWith(SELECT)) {
-			arguments.add(0, count);
-			arguments.add(0, first);
-			return "SELECT LIMIT ? ? " + sql.substring(SELECT.length());
-		}
-		throw new IllegalArgumentException("Invalid query for HSQLDB LIMIT: " + sql);
-	}
+    @Override
+    public String selectBetween(String sql, List<Object> arguments, int first, int count) {
+        if (sql.startsWith(SELECT)) {
+            arguments.add(0, count);
+            arguments.add(0, first);
+            return "SELECT LIMIT ? ? " + sql.substring(SELECT.length());
+        }
+        throw new IllegalArgumentException("Invalid query for HSQLDB LIMIT: " + sql);
+    }
 }

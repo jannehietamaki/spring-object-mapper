@@ -1,15 +1,8 @@
 package springobjectmapper.query;
 
-public class OrderedQuery extends AbstractQuery {
-	private final Order order;
+public class OrderedQuery extends Query {
 
 	public OrderedQuery(Order order) {
-		this.order = order;
+		super("", order);
 	}
-
-	@Override
-	public Order order() {
-		return order;
-	}
-
 }

@@ -1,18 +1,41 @@
 package springobjectmapper.query;
 
-import java.io.Serializable;
-
 import springobjectmapper.dialect.Dialect;
 
-public interface Query extends Serializable {
+public class Query implements IQuery {
+	private final String sql;
+	private final Object[] args;
+	private final Order order;
 
-	public final static Query ALL = new EmptyQuery();
+	public Query(String sql, Order order, Object... args) {
+		this.sql = sql;
+		this.args = args;
+		this.order = order;
+	}
 
-	String select(Dialect dialect);
+	public Query(String sql, Object... args) {
+		this.sql = sql;
+		this.args = args;
+		this.order = Order.ANY;
+	}
 
-	String count(Dialect dialect);
+	@Override
+	public String select(Dialect dialect) {
+		return dialect.select(sql);
+	}
 
-	Object[] arguments();
+	@Override
+	public String count(Dialect dialect) {
+		return dialect.count(sql);
+	}
 
-	Order order();
+	@Override
+	public Object[] arguments() {
+		return args;
+	}
+
+	@Override
+	public Order order() {
+		return order;
+	}
 }

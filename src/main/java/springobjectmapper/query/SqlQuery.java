@@ -2,7 +2,7 @@ package springobjectmapper.query;
 
 import springobjectmapper.dialect.Dialect;
 
-public class SqlQuery implements Query {
+public class SqlQuery implements IQuery {
 	private final String sql;
 	private final Object[] arguments;
 

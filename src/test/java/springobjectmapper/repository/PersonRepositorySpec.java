@@ -15,8 +15,8 @@ import springobjectmapper.model.Country;
 import springobjectmapper.model.Person;
 import springobjectmapper.query.Order;
 import springobjectmapper.query.OrderedQuery;
+import springobjectmapper.query.IQuery;
 import springobjectmapper.query.Query;
-import springobjectmapper.query.SimpleQuery;
 
 @RunWith(JDaveRunner.class)
 public class PersonRepositorySpec extends Specification<PersonRepository> {
@@ -75,7 +75,7 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
 		}
 
 		public void itemCanBeQueriedByIdAndUpdated() {
-			List<Person> persons = context.query(Query.ALL);
+			List<Person> persons = context.query(IQuery.ALL);
 			Long id = persons.get(0).id();
 			Person first = context.findById(id);
 			first.setEmail("foobar@zoo.com");
@@ -85,12 +85,12 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
 		}
 
 		public void itemCanBeQueriedViaQueryInterface() {
-			List<Person> persons = context.query(new SimpleQuery("email=?", "james5.bond@mi6.co.uk"));
+			List<Person> persons = context.query(new Query("email=?", "james5.bond@mi6.co.uk"));
 			specify(persons.size(), does.equal(1));
 		}
 
 		public void itemsCanBeCounted() {
-			specify(context.count(new SimpleQuery("email=?", "james5.bond@mi6.co.uk")), does.equal(1));
+			specify(context.count(new Query("email=?", "james5.bond@mi6.co.uk")), does.equal(1));
 		}
 
 		public void queryCanBeLimitedAndOrdered() {

@@ -80,4 +80,8 @@ public abstract class Dialect {
     public String appendOrder(String sql, Order order) {
         return sql + orderBy(order);
     }
+
+    public String remove() {
+        return "DELETE FROM {table} WHERE {idField}=?";
+    }
 }

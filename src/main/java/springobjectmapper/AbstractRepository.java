@@ -81,6 +81,12 @@ public class AbstractRepository<T> {
         }
     }
 
+    public void remove(T entity) {
+        if (template.update(properties.parse(dialect.remove()), properties.getId(entity)) != 1) {
+            throw new RuntimeException("Remove failed!");
+        }
+    }
+
     public void update(final T entity) {
         if (template.update(properties.parse(dialect.update()), properties.valuesOf(entity)) != 1) {
             throw new RuntimeException("Update failed!");

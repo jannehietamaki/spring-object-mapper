@@ -71,8 +71,12 @@ public class TableProperties<T> {
         return getValues(allFields, entity);
     }
 
+    public Object getId(T entity) {
+        return getFieldValue(idField, entity);
+    }
+
     public boolean isIdSet(T entity) {
-        return getFieldValue(idField, entity) != null;
+        return getId(entity) != null;
     }
 
     public Field idField() {

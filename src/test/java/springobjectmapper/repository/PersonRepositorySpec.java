@@ -114,5 +114,11 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
             specify(persons.get(0).getFirstName(), does.equal("James-5"));
             specify(persons.get(1).getFirstName(), does.equal("James-6"));
         }
+
+        public void itemCanBeRemoved() {
+            List<Person> persons = context.query(new Query("email=?", "james5.bond@mi6.co.uk"));
+            context.remove(persons.get(0));
+            specify(context.count(IQuery.ALL), does.equal(9));
+        }
     }
 }

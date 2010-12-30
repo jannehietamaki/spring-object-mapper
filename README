@@ -1,0 +1,24 @@
+spring-object-mapper is a thin layer on top of Spring JdbcTemplate for simple object persistence.
+
+It's not an ORM, and will never be one. If you need full blown ORM, this is not what you are looking for.
+
+Features:
+    - Mapping POJOs to/from DB objects
+    - CRUD operations
+    - Support for different DB Dialects
+    - Simple query API. DB queries are done with plain old SQL.
+
+Maven:
+
+<dependency>
+	<groupId>spring-object-mapper</groupId>
+	<artifactId>spring-object-mapper</artifactId>
+	<version>1.0-SNAPSHOT</version>
+</dependency>
+
+<repositories>
+	<repository>
+		<id>spring-object-mapper-snapshots</id>
+		<url>http://jannehietamaki.github.com/maven2/</url>
+	</repository>
+</repositories>

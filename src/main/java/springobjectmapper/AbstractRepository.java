@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcOperations;
 import org.springframework.util.ReflectionUtils;
 
@@ -53,7 +54,7 @@ public class AbstractRepository<T> {
         if (id == null && returnNull) {
             return null;
         }
-        return template.queryForObject(properties.parse(dialect.queryById()), properties.mapper(), id);
+        return template.queryForObject(properties.parse(dialect.queryById()), rowMapper(), id);
     }
 
     public List<T> query(IQuery query) {
@@ -65,7 +66,7 @@ public class AbstractRepository<T> {
         String baseQuery = query.select(dialect);
         String betweenQuery = dialect.selectBetween(baseQuery, args, first, count);
         String orderedQuery = dialect.appendOrder(betweenQuery, query.order());
-        return template.query(properties.parse(orderedQuery), properties.mapper(), args.toArray());
+        return template.query(properties.parse(orderedQuery), rowMapper(), args.toArray());
     }
 
     public int count(IQuery query) {
@@ -96,5 +97,9 @@ public class AbstractRepository<T> {
         template.update(properties.parse(dialect.insert()), properties.valuesOf(entity));
         Object id = template.queryForObject(dialect.getInsertedId(), properties.idField().getType());
         ReflectionUtils.setField(properties.idField(), entity, id);
+    }
+
+    public RowMapper<T> rowMapper() {
+        return properties.mapper();
     }
 }

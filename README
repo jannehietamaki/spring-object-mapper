@@ -25,3 +25,7 @@ Maven:
 		<url>https://github.com/jannehietamaki/maven-repo/raw/master/snapshots</url>		
 	</repository>
 </repositories>
+
+
+License:
+    ASL2.0

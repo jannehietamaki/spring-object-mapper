@@ -15,7 +15,7 @@
  */
 package springobjectmapper.repository;
 
-import javax.sql.DataSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcOperations;
 
 import springobjectmapper.AbstractRepository;
 import springobjectmapper.dialect.Dialect;
@@ -23,8 +23,8 @@ import springobjectmapper.model.Country;
 
 public class CountryRepository extends AbstractRepository<Country> {
 
-    public CountryRepository(DataSource dataSource, Dialect dialect) {
-        super(dataSource, dialect, Country.class);
+    public CountryRepository(SimpleJdbcOperations template, Dialect dialect) {
+        super(template, dialect, Country.class);
     }
 
 }

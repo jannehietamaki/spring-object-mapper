@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcOperations;
 import org.springframework.util.ReflectionUtils;
 
 import springobjectmapper.dialect.Dialect;
@@ -30,19 +28,20 @@ import springobjectmapper.query.IQuery;
 
 public class AbstractRepository<T> {
     private final TableProperties<T> properties;
-    private final SimpleJdbcTemplate template;
+    private final SimpleJdbcOperations template;
     private final Dialect dialect;
 
     protected AbstractRepository() {
-        // Default constructor only for creating proxies
+        // Default constructor is only used for creating proxies. Do not call
+        // directly
         this.properties = null;
         this.template = null;
         this.dialect = null;
     }
 
-    public AbstractRepository(DataSource dataSource, Dialect dialect, final Class<T> typeClass) {
+    public AbstractRepository(SimpleJdbcOperations template, Dialect dialect, final Class<T> typeClass) {
         this.dialect = dialect;
-        template = new SimpleJdbcTemplate(dataSource);
+        this.template = template;
         properties = new TableProperties<T>(typeClass);
     }
 

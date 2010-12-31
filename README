@@ -8,6 +8,9 @@ Features:
     - Support for different DB Dialects
     - Simple query API. DB queries are done with plain old SQL.
 
+Example: 
+    https://github.com/jannehietamaki/spring-object-mapper/blob/master/src/test/java/springobjectmapper/Example.java
+
 Maven:
 
 <dependency>
@@ -19,6 +22,6 @@ Maven:
 <repositories>
 	<repository>
 		<id>spring-object-mapper-snapshots</id>
-		<url>http://jannehietamaki.github.com/maven2</url>
+		<url>https://github.com/jannehietamaki/maven-repo/raw/master/snapshots</url>		
 	</repository>
 </repositories>

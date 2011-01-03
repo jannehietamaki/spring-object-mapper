@@ -64,9 +64,9 @@ public class AbstractRepository<T> {
     public List<T> query(IQuery query, int first, int count) {
         ArrayList<Object> args = new ArrayList<Object>(Arrays.asList(query.arguments()));
         String baseQuery = query.select(dialect);
-        String betweenQuery = dialect.selectBetween(baseQuery, args, first, count);
-        String orderedQuery = dialect.appendOrder(betweenQuery, query.order());
-        return template.query(properties.parse(orderedQuery), rowMapper(), args.toArray());
+        String orderedQuery = dialect.appendOrder(baseQuery, query.order());
+        String betweenQuery = dialect.selectBetween(orderedQuery, args, first, count);
+        return template.query(properties.parse(betweenQuery), rowMapper(), args.toArray());
     }
 
     public int count(IQuery query) {

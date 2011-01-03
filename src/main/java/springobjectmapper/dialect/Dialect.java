@@ -23,6 +23,8 @@ import springobjectmapper.query.OrderItem;
 
 public abstract class Dialect {
 
+    public abstract String defaultIdFieldType();
+
     public String queryById() {
         return "SELECT * FROM {table} WHERE {idField}=?";
     }

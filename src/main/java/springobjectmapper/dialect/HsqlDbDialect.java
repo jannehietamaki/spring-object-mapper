@@ -18,8 +18,19 @@ package springobjectmapper.dialect;
 
 import java.util.List;
 
+import org.hsqldb.jdbcDriver;
+
 public class HsqlDbDialect extends Dialect {
     private static final String SELECT = "SELECT ";
+
+    public HsqlDbDialect() {
+        new jdbcDriver();
+    }
+
+    @Override
+    public String defaultIdFieldType() {
+        return "BIGINT IDENTITY";
+    }
 
     @Override
     public String getInsertedId() {

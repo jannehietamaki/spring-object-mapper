@@ -18,11 +18,11 @@ package springobjectmapper;
 
 import java.util.List;
 
-import org.hsqldb.jdbcDriver;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
-import springobjectmapper.dialect.HsqlDbDialect;
+import springobjectmapper.dialect.Dialect;
+import springobjectmapper.dialect.MySqlDialect;
 import springobjectmapper.model.Country;
 import springobjectmapper.model.Person;
 import springobjectmapper.query.Order;
@@ -32,15 +32,20 @@ import springobjectmapper.repository.PersonRepository;
 
 public class Example {
     public static void main(String[] args) {
-        new jdbcDriver();
-        SingleConnectionDataSource dataSource = new SingleConnectionDataSource("jdbc:hsqldb:mem:test", "sa", "", false);
+        // Dialect dialect = new HsqlDbDialect();
+        // SingleConnectionDataSource dataSource = new
+        // SingleConnectionDataSource("jdbc:hsqldb:mem:test", "sa", "", false);
+
+        Dialect dialect = new MySqlDialect();
+        SingleConnectionDataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/foo", "root", "", false);
+
         SimpleJdbcTemplate template = new SimpleJdbcTemplate(dataSource);
+        
+        template.update("CREATE TABLE country (id " + dialect.defaultIdFieldType() + " PRIMARY KEY, code CHAR(2) NOT NULL, name VARCHAR(50) NOT NULL)");
+        template.update("CREATE TABLE person (id " + dialect.defaultIdFieldType() + " PRIMARY KEY,first_name VARCHAR(50) NOT NULL,last_name VARCHAR(50) NOT NULL,country_id BIGINT NOT NULL,email VARCHAR(50) NOT NULL,FOREIGN KEY (country_id) REFERENCES country(id))");
 
-        template.update("CREATE TABLE country (id BIGINT IDENTITY PRIMARY KEY, code CHAR(2) NOT NULL, name VARCHAR(50) NOT NULL)");
-        template.update("CREATE TABLE person (id BIGINT IDENTITY PRIMARY KEY,first_name VARCHAR(50) NOT NULL,last_name VARCHAR(50) NOT NULL,country_id BIGINT NOT NULL,email VARCHAR(50) NOT NULL,FOREIGN KEY (country_id) REFERENCES country(id))");
-
-        PersonRepository persons = new PersonRepository(template, new HsqlDbDialect());
-        CountryRepository countries = new CountryRepository(template, new HsqlDbDialect());
+        PersonRepository persons = new PersonRepository(template, dialect);
+        CountryRepository countries = new CountryRepository(template, dialect);
 
         Country uk = new Country("UK", "United Kingdom");
         countries.save(uk);

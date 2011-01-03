@@ -20,22 +20,23 @@ import java.util.List;
 import jdave.Specification;
 import jdave.junit4.JDaveRunner;
 
-import org.hsqldb.jdbcDriver;
 import org.junit.runner.RunWith;
 import org.springframework.jdbc.core.simple.SimpleJdbcOperations;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
+import springobjectmapper.dialect.Dialect;
 import springobjectmapper.dialect.HsqlDbDialect;
 import springobjectmapper.model.Country;
 import springobjectmapper.model.Person;
+import springobjectmapper.query.IQuery;
 import springobjectmapper.query.Order;
 import springobjectmapper.query.OrderedQuery;
-import springobjectmapper.query.IQuery;
 import springobjectmapper.query.Query;
 
 @RunWith(JDaveRunner.class)
 public class PersonRepositorySpec extends Specification<PersonRepository> {
+    private final Dialect dialect = new HsqlDbDialect();
     private Country country;
     private SimpleJdbcOperations template;
     private SingleConnectionDataSource dataSource;
@@ -43,11 +44,10 @@ public class PersonRepositorySpec extends Specification<PersonRepository> {
 
     @Override
     public void create() {
-        new jdbcDriver();
         dataSource = new SingleConnectionDataSource("jdbc:hsqldb:mem:test" + (counter++), "sa", "", false);
         template = new SimpleJdbcTemplate(dataSource);
         createFixture();
-        CountryRepository countryRepository = new CountryRepository(template, new HsqlDbDialect());
+        CountryRepository countryRepository = new CountryRepository(template, dialect);
         country = new Country("SE", "Sweden");
         countryRepository.save(country);
     }

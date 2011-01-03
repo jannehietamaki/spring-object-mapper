@@ -14,6 +14,11 @@ public class MySqlDialect extends Dialect {
     }
 
     @Override
+    public boolean supportsIdentityColumns() {
+        return true;
+    }
+
+    @Override
     public String getInsertedId() {
         return "SELECT LAST_INSERT_ID()";
     }

@@ -34,18 +34,20 @@ public class TableProperties<T> {
     private final Field idField;
     private final RowMapper<T> mapper;
     private final SqlTemplate sqlTemplate;
+    private final Class<T> typeClass;
 
     public TableProperties(final Class<T> typeClass) {
+        this.typeClass = typeClass;
         idField = getAnnotatedField(typeClass, Id.class);
-        updateFields = getUpdateFields(typeClass);
-        allFields = getUpdateFields(typeClass);
+        updateFields = getUpdateFields();
+        allFields = getUpdateFields();
         allFields.add(idField); // idField is always the last one
 
         final List<String> fieldNames = getFieldNames(allFields);
 
         Map<String, String> tags = new HashMap<String, String>();
         tags.put("idField", fieldName(idField));
-        tags.put("table", tableName(typeClass));
+        tags.put("table", getTableName());
         tags.put("fields", StringUtils.arrayToDelimitedString(fieldNames.toArray(), ","));
         tags.put("values", placeHolders(fieldNames.size()));
         tags.put("updates", updates(updateFields));
@@ -53,7 +55,11 @@ public class TableProperties<T> {
         mapper = new FieldPropertyRowMapper<T>(typeClass, this);
     }
 
-    private List<Field> getUpdateFields(final Class<T> typeClass) {
+    public String getTableName() {
+        return tableName(typeClass);
+    }
+
+    private List<Field> getUpdateFields() {
         List<Field> fields = getFields(typeClass);
         fields.remove(idField);
         return fields;

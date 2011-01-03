@@ -33,8 +33,7 @@ public class AbstractRepository<T> {
     private final Dialect dialect;
 
     protected AbstractRepository() {
-        // Default constructor is only used for creating proxies. Do not call
-        // directly
+        // Default constructor is only used for creating proxies. Do not call directly
         this.properties = null;
         this.template = null;
         this.dialect = null;
@@ -94,6 +93,22 @@ public class AbstractRepository<T> {
     }
 
     public void insert(final T entity) {
+        if (dialect.supportsIdentityColumns()) {
+            insertWithIdentity(entity);
+        } else if (dialect.supportsSequenceColumns()) {
+            insertWithSequence(entity);
+        } else {
+            throw new RuntimeException("Dialect does not support identity columns nor sequence columns!");
+        }
+    }
+
+    private void insertWithSequence(T entity) {
+        Object id = template.queryForObject(dialect.getNextSequenceValue(properties.getTableName() + "_SEQ"), properties.idField().getType());
+        template.update(properties.parse(dialect.insertWithId()), properties.valuesOf(entity), id);
+        ReflectionUtils.setField(properties.idField(), entity, id);
+    }
+
+    private void insertWithIdentity(T entity) {
         template.update(properties.parse(dialect.insert()), properties.valuesOf(entity));
         Object id = template.queryForObject(dialect.getInsertedId(), properties.idField().getType());
         ReflectionUtils.setField(properties.idField(), entity, id);

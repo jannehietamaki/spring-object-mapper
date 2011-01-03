@@ -29,10 +29,24 @@ public abstract class Dialect {
         return "SELECT * FROM {table} WHERE {idField}=?";
     }
 
-    public abstract String getInsertedId();
+    public boolean supportsIdentityColumns() {
+        return false;
+    }
+
+    public boolean supportsSequenceColumns() {
+        return false;
+    }
+
+    public String getInsertedId() {
+        throw new IllegalArgumentException("Dialect does not support identity columns");
+    }
 
     public String insert() {
         return "INSERT INTO {table} ({fields}) VALUES ({values})";
+    }
+
+    public String insertWithId() {
+        return "INSERT INTO {table} ({fields},{idField}) VALUES ({values}, ?)";
     }
 
     public String update() {
@@ -85,5 +99,9 @@ public abstract class Dialect {
 
     public String remove() {
         return "DELETE FROM {table} WHERE {idField}=?";
+    }
+
+    public String getNextSequenceValue(String sequence) {
+        return "SELECT " + sequence + ".nextVal FROM DUAL";
     }
 }

@@ -38,6 +38,11 @@ public class HsqlDbDialect extends Dialect {
     }
 
     @Override
+    public boolean supportsIdentityColumns() {
+        return true;
+    }
+
+    @Override
     public String selectBetween(String sql, List<Object> arguments, int first, int count) {
         if (sql.startsWith(SELECT)) {
             arguments.add(0, count);
